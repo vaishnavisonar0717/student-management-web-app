@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ student.full_name }} · Campusly{% endblock %}
+{% block heading %}Student profile{% endblock %}
+{% block content %}
+<div class="detail-top"><a class="back-link" href="{% url 'student_list' %}">← Back to directory</a><div class="action-row"><a class="button light" href="{% url 'student_delete' student.pk %}">Delete</a><a class="button primary" href="{% url 'student_update' student.pk %}">Edit details ↗</a></div></div>
+<section class="profile-hero"><div class="profile-avatar">{{ student.full_name|slice:":1"|upper }}</div><div><span class="eyebrow light-eyebrow">STUDENT PROFILE</span><h2>{{ student.full_name }}</h2><p>{{ student.course }} <span>·</span> Year {{ student.year }}</p></div><span class="profile-badge">● Active record</span></section>
+<section class="panel details-panel"><div class="panel-head"><div><h2>Personal information</h2><p class="muted">Student record details</p></div></div><div class="details-grid">
+<div><small>ADMISSION NUMBER</small><strong>{{ student.admission_number }}</strong></div><div><small>EMAIL ADDRESS</small><strong>{{ student.email }}</strong></div><div><small>PHONE NUMBER</small><strong>{{ student.phone|default:"Not provided" }}</strong></div><div><small>DATE OF BIRTH</small><strong>{{ student.date_of_birth|date:"M j, Y"|default:"Not provided" }}</strong></div><div><small>COURSE</small><strong>{{ student.course }}</strong></div><div><small>YEAR OF STUDY</small><strong>Year {{ student.year }}</strong></div>
+</div></section>
+{% endblock %}

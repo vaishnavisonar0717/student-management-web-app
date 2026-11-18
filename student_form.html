@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} · Campusly{% endblock %}
+{% block heading %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="form-layout"><section class="panel form-panel"><div class="panel-head"><div><h2>Student information</h2><p class="muted">Enter the details below. Fields marked required must be completed.</p></div></div>
+<form method="post" novalidate>{% csrf_token %}
+  {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+  <div class="form-grid">
+  {% for field in form %}
+    <div class="field {% if field.name == 'course' %}full-field{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span>*</span>{% endif %}</label>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>
+  {% endfor %}
+  </div>
+  <div class="form-actions"><a class="button light" href="{% if student %}{% url 'student_detail' student.pk %}{% else %}{% url 'student_list' %}{% endif %}">Cancel</a><button class="button primary" type="submit">Save student <span>→</span></button></div>
+</form></section><aside class="tip-card"><div class="tip-icon">✦</div><h3>Keep records accurate</h3><p>Use a unique admission number and email address for each student. You can update these details at any time.</p></aside></div>
+{% endblock %}

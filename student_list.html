@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Students · Campusly{% endblock %}
+{% block heading %}Student directory{% endblock %}
+{% block content %}
+<section class="welcome-row"><div><p class="muted">A clear view of your academic community.</p></div><a class="button primary" href="{% url 'student_create' %}"><span>＋</span> Add student</a></section>
+<section class="stats-grid">
+  <article class="stat-card"><div class="stat-icon purple">♙</div><div><p>Total students</p><strong>{{ total_students }}</strong><small>Across all courses</small></div></article>
+  <article class="stat-card accent-card"><div class="stat-icon mint">✦</div><div><p>Directory status</p><strong>Up to date</strong><small>Manage records in one place</small></div></article>
+</section>
+<section class="panel">
+  <div class="panel-head"><div><h2>All students</h2><p class="muted">Search and manage student information</p></div><span class="count-pill">{{ students|length }} result{{ students|length|pluralize }}</span></div>
+  <form class="search-form" method="get"><div class="search-wrap"><span>⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search name, ID, email or course..."></div><button class="button dark" type="submit">Search</button>{% if query %}<a class="clear-link" href="{% url 'student_list' %}">Clear</a>{% endif %}</form>
+  <div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>ADMISSION NO.</th><th>COURSE</th><th>YEAR</th><th>EMAIL</th><th></th></tr></thead><tbody>
+  {% for student in students %}
+  <tr><td><a class="student-cell" href="{% url 'student_detail' student.pk %}"><span class="person-avatar">{{ student.full_name|slice:":1"|upper }}</span><strong>{{ student.full_name }}</strong></a></td><td><span class="id-text">{{ student.admission_number }}</span></td><td>{{ student.course }}</td><td><span class="year-tag">Year {{ student.year }}</span></td><td class="email-cell">{{ student.email }}</td><td><a class="more-link" href="{% url 'student_detail' student.pk %}">View →</a></td></tr>
+  {% empty %}<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">⌕</div><h3>No students found</h3><p>{% if query %}Try a different search term.{% else %}Add your first student to get started.{% endif %}</p><a class="button primary" href="{% url 'student_create' %}">＋ Add student</a></div></td></tr>
+  {% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}
